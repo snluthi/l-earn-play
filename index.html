@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title>L-earn</title>
+    <!-- Installable app: Safari → Share → Add to Home Screen opens it full screen, without the browser bars. -->
+    <link rel="manifest" href="/l-earn-play/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/l-earn-play/icons/icon-180.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="L-earn" />
+    <meta name="theme-color" content="#0b0714" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        /* Decorative desktop side panels: the game is centred and the backdrop
+           fills the remaining width. Refine later with themed art. */
+        background: radial-gradient(circle at 50% 30%, #1a0f2e 0%, #0b0714 70%);
+        overflow: hidden;
+      }
+      /* The game fills the screen inside the safe area (notch, home bar). */
+      #game {
+        position: fixed;
+        top: env(safe-area-inset-top);
+        bottom: env(safe-area-inset-bottom);
+        left: env(safe-area-inset-left);
+        right: env(safe-area-inset-right);
+        touch-action: none;
+      }
+      /* Landscape game on a phone held upright: ask to turn it. */
+      #rotate {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 100;
+        background: #0b0714;
+        color: #fff6e0;
+        font: 700 18px system-ui, -apple-system, sans-serif;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        text-align: center;
+      }
+      #rotate span { font-size: 54px; animation: turn 1.6s ease-in-out infinite; }
+      @keyframes turn { 0%, 30% { transform: rotate(0); } 60%, 100% { transform: rotate(-90deg); } }
+      @media (orientation: portrait) and (max-width: 700px) {
+        body.landscape #rotate { display: flex; }
+      }
+    </style>
+    <script type="module" crossorigin src="/l-earn-play/assets/index-WO8u8IYF.js"></script>
+    <link rel="stylesheet" crossorigin href="/l-earn-play/assets/index-Bzjuf1Kd.css">
+  </head>
+  <body>
+    <div id="game"></div>
+    <div id="rotate"><span>📱</span>Turn your phone sideways to play</div>
+  </body>
+</html>
