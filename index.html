@@ -7,9 +7,10 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
     <title>L-earn</title>
-    <!-- Installable app: Safari → Share → Add to Home Screen opens it full screen, without the browser bars. -->
-    <link rel="manifest" href="/l-earn-play/manifest.webmanifest" />
-    <link rel="apple-touch-icon" href="/l-earn-play/icons/icon-180.png" />
+    <!-- Installable app: Safari → Share → Add to Home Screen opens it full screen, without the browser bars.
+         Relative links, so the game also works under a sub-path (GitHub Pages). -->
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="icons/icon-180.png" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -55,12 +56,80 @@
       @media (orientation: portrait) and (max-width: 700px) {
         body.landscape #rotate { display: flex; }
       }
+
+      /* Launch screen: painted with the page itself, before the game's code downloads. It shows the loader's
+         progress (l-earn:progress events from src/art/registry.ts) and fades once the first pictures are in. */
+      #splash { position: fixed; inset: 0; z-index: 15; overflow: hidden; background: #0b0714; color: #fff6e0;
+               font-family: system-ui, -apple-system, 'Segoe UI', sans-serif; transition: opacity .45s ease; }
+      #splash.gone { opacity: 0; pointer-events: none; }
+      #splash .bg { position: absolute; inset: -4%; background: url(splash.webp) center / cover; filter: blur(3px) brightness(.55) saturate(1.1); }
+      #splash .shade { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 40%, rgba(11,7,20,0) 0%, rgba(11,7,20,.75) 75%); }
+      #splash .mid { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -54%); width: min(420px, 88vw); text-align: center; }
+      #splash h1 { margin: 0; font-size: clamp(48px, 12vmin, 72px); letter-spacing: -1px; color: #fff6e0; text-shadow: 0 4px 0 #6b3a1a, 0 10px 24px rgba(0,0,0,.6); }
+      #splash .sub { margin: 4px 0 22px; font-size: 15px; text-shadow: 0 2px 6px rgba(0,0,0,.8); }
+      #splash .bar { position: relative; height: 16px; border-radius: 9px; background: rgba(0,0,0,.55); border: 2px solid rgba(255,214,107,.55); overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,.6); }
+      #splash .bar i { position: absolute; left: 0; top: 0; bottom: 0; width: 8%; border-radius: 7px; background: linear-gradient(#ffe391, #ffd66b 60%, #e0a92e); transition: width .25s ease; }
+      #splash .bar.wait i { animation: sweep 1.4s ease-in-out infinite; }
+      @keyframes sweep { 0% { left: 0; width: 8%; } 50% { width: 30%; } 100% { left: 92%; width: 8%; } }
+      #splash .pct { margin-top: 6px; font-size: 13px; font-weight: 800; color: #ffd66b; min-height: 16px; }
+      #splash .tip { margin-top: 12px; font-size: 14px; color: #cfd8e8; min-height: 40px; padding: 0 12px; text-shadow: 0 2px 6px rgba(0,0,0,.8); }
+      #splash .tip b { color: #fff6e0; }
+      #splash .hero { position: absolute; right: 4%; bottom: 0; height: min(52vh, 300px); filter: drop-shadow(0 10px 14px rgba(0,0,0,.6)); animation: bob 2.4s ease-in-out infinite; transform-origin: 50% 100%; }
+      @keyframes bob { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
+      @media (prefers-reduced-motion: reduce) { #splash .hero, #splash .bar.wait i { animation: none; } }
+      @media (max-width: 700px) and (orientation: portrait) { #splash .hero { display: none; } }
     </style>
-    <script type="module" crossorigin src="/l-earn-play/assets/index-WO8u8IYF.js"></script>
+    <script type="module" crossorigin src="/l-earn-play/assets/index-By3M6Nq1.js"></script>
     <link rel="stylesheet" crossorigin href="/l-earn-play/assets/index-Bzjuf1Kd.css">
   </head>
   <body>
     <div id="game"></div>
+    <div id="splash" aria-live="polite">
+      <div class="bg"></div><div class="shade"></div>
+      <img class="hero" src="splash_hero.webp" alt="" />
+      <div class="mid">
+        <h1>L-earn</h1>
+        <p class="sub">Defend the School. Learn to grow stronger.</p>
+        <div class="bar wait"><i></i></div>
+        <div class="pct" id="splash-pct"></div>
+        <div class="tip" id="splash-tip"></div>
+      </div>
+    </div>
     <div id="rotate"><span>📱</span>Turn your phone sideways to play</div>
+    <script>
+      (function () {
+        var tips = [
+          'Every right answer earns <b>◆</b> to level up your heroes.',
+          '<b>✨</b> fills by itself during the battle. Spend it as it comes.',
+          'Big hits get through armour. Small zaps barely scratch a <b>Couch Giant</b>.',
+          'Only heroes with air reach can stop an <b>Influencer</b>.',
+          'On <b>The Field</b> there is no road: your walls and heroes bend the way.',
+          'Study before a battle: the <b>✨</b> bar starts fuller and fills faster.',
+          'A hero at 0 health leaves the board for a while. Nanny Nimbus heals the ones around her.',
+          'Tap any hero card to see it fight before you pick it.',
+        ];
+        var tip = document.getElementById('splash-tip'), i = Math.floor(Math.random() * tips.length);
+        var show = function () { tip.innerHTML = tips[i++ % tips.length]; };
+        show();
+        var timer = setInterval(show, 2600);
+        var splash = document.getElementById('splash'), bar = splash.querySelector('.bar'), fill = bar.querySelector('i'), pct = document.getElementById('splash-pct');
+        var done = false;
+        function hide() {
+          if (done) return;
+          done = true;
+          clearInterval(timer);
+          fill.style.width = '100%';
+          setTimeout(function () { splash.classList.add('gone'); setTimeout(function () { splash.remove(); }, 500); }, 250);
+        }
+        addEventListener('l-earn:progress', function (e) {
+          bar.classList.remove('wait');
+          var v = Math.max(0.04, Math.min(1, e.detail || 0));
+          fill.style.width = Math.round(v * 100) + '%';
+          pct.textContent = Math.round(v * 100) + '%';
+        });
+        addEventListener('l-earn:loaded', hide);
+        setTimeout(hide, 40000); // never stuck behind the launch screen
+      })();
+    </script>
   </body>
 </html>
