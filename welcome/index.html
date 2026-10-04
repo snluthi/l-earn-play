@@ -45,6 +45,7 @@ h2 { font-size: clamp(32px, 5vw, 52px); }
 .btn:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--gold-deep); }
 .btn.ghost { background: rgba(255, 255, 255, .08); color: var(--cream); box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .22); font-family: var(--body); font-weight: 800; font-size: 17px; }
 .btn.ghost:hover { background: rgba(255, 255, 255, .14); }
+.soon { font-family: var(--display); font-size: 15px; letter-spacing: .6px; color: var(--gold); border: 2px dashed rgba(255, 214, 107, .55); border-radius: 12px; padding: 6px 12px; white-space: nowrap; }
 .btn.small { font-size: 16px; padding: 9px 16px; border-radius: 12px; box-shadow: 0 3px 0 var(--gold-deep); }
 
 /* Top bar */
@@ -159,12 +160,9 @@ section, #top { scroll-margin-top: 70px; }
 .final { position: relative; isolation: isolate; overflow: hidden; border-radius: 32px; margin-inline: var(--gutter); margin-block: 20px clamp(40px, 6vw, 80px); max-width: calc(var(--max) - 0px); }
 .final::before { content: ''; position: absolute; inset: 0; z-index: -2; background: url(img/map.webp) center / cover; }
 .final::after { content: ''; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(11, 7, 20, .92) 0%, rgba(11, 7, 20, .72) 55%, rgba(11, 7, 20, .35) 100%); }
-.final-in { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; align-items: center; padding: clamp(28px, 5vw, 60px); }
+.final-in { display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; align-items: center; padding: clamp(28px, 5vw, 60px); }
 .final h2 { font-size: clamp(34px, 5.4vw, 60px); text-shadow: 0 4px 0 #6b3a1a; }
 .final p { color: #ddd8ee; max-width: 46ch; }
-.qr { background: var(--cream); color: var(--night); border-radius: 20px; padding: 12px 12px 10px; text-align: center; box-shadow: 0 18px 40px rgba(0, 0, 0, .45); transform: rotate(2deg); }
-.qr img { width: 168px; height: 168px; image-rendering: pixelated; }
-.qr span { display: block; font-weight: 900; font-size: 13px; margin-top: 4px; }
 footer { color: var(--muted); font-size: 13px; padding-block: 26px 40px; border-top: 1px solid var(--line); }
 footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; }
 
@@ -175,7 +173,6 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: s
   .monsters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .topics { grid-template-columns: minmax(0, 1fr); }
   .final-in { text-align: left; }
-  .qr { justify-self: start; }
   .split .shot { order: -1; }
 }
 @media (max-width: 520px) {
@@ -186,7 +183,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: s
   .mon { grid-template-columns: minmax(0, 1fr); justify-items: center; align-content: start; text-align: center; padding: 14px 10px; }
   .mon .pic { width: 64px; height: 64px; }
   .rail { grid-auto-columns: 62%; }
-  .bar .btn.small { font-size: 14px; padding: 8px 12px; }
+  .bar .soon { font-size: 13px; padding: 5px 10px; }
   .device { transform: rotate(-2deg); }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -202,7 +199,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: s
 <header class="bar">
   <div class="wrap">
     <a class="logo" href="#top" aria-label="L-earn, back to top">L-<span>earn</span></a>
-    <a class="btn small" href="../">▶ Play the demo</a>
+    <span class="soon">Coming soon</span>
   </div>
 </header>
 
@@ -214,10 +211,10 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: s
         <h1 style="margin-top:14px">Defend the School.<em>Learn to grow stronger.</em></h1>
         <p class="lede">Monsters are marching on the School. Your heroes hold the line, and every question you get right in the Study Hall makes them hit harder, reach further and last longer.</p>
         <div class="ctas">
-          <a class="btn" href="../">▶ Play the demo</a>
-          <a class="btn ghost" href="#loop">How it works</a>
+          <a class="btn" href="#loop">How it works</a>
+          <a class="btn ghost" href="#heroes">Meet the heroes</a>
         </div>
-        <p class="note">Plays in the browser, on a phone (sideways) or a computer. The demo asks for a code.</p>
+        <p class="note">Coming soon: plays in the browser, on a phone or a computer.</p>
       </div>
       <div class="stage">
         <div class="device"><span class="notch"></span><img src="img/battle.webp" alt="A battle on Twin Pools: the School and the Tree of Knowledge on the left, heroes on the road, monsters coming out of two portals, hero cards and spells along the bottom" width="1400" height="647"></div>
@@ -362,13 +359,11 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: s
   <div class="final">
     <div class="final-in">
       <div>
-        <div class="eyebrow">Ready?</div>
+        <div class="eyebrow">Coming soon</div>
         <h2 style="margin:10px 0 12px">The monsters are already on their way.</h2>
-        <p>Play the demo in your browser. On a phone, hold it sideways; on iPhone, Share → Add to Home Screen plays it full screen.</p>
-        <div class="ctas" style="margin-top:22px"><a class="btn" href="../">▶ Defend the School</a></div>
-        <p class="note">The demo asks for a code: ask the person who showed you this page.</p>
+        <p>L-earn is still in the workshop: heroes are being painted, islands built and the first topic packs written. It will play in the browser, on a phone or a computer.</p>
+        <div class="ctas" style="margin-top:22px"><a class="btn ghost" href="#top">Back to the top</a></div>
       </div>
-      <div class="qr"><img src="img/qr.png" alt="QR code that opens the L-earn demo" width="168" height="168"><span>Scan to play on your phone</span></div>
     </div>
   </div>
 </main>
@@ -377,17 +372,5 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 8px 20px; justify-content: s
   <div class="wrap"><span><b style="color:var(--cream)">L-earn</b> · working title · a prototype, art in progress</span><span>Made for learning, one wave at a time.</span></div>
 </footer>
 
-<script>
-// Doof turns on the spot: eight renders of the 3D model, one every 45°.
-(function () {
-  var img = document.getElementById('doof');
-  if (!img || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var frames = ['000', '045', '090', '135', '180', '225', '270', '315'].map(function (h) { var i = new Image(); i.src = 'img/doof_' + h + '.webp'; return i.src; });
-  var k = 1, paused = false;
-  img.parentElement.addEventListener('mouseenter', function () { paused = true; });
-  img.parentElement.addEventListener('mouseleave', function () { paused = false; });
-  setInterval(function () { if (paused || document.hidden) return; k = (k + 1) % frames.length; img.src = frames[k]; }, 260);
-})();
-</script>
 </body>
 </html>
